@@ -5,6 +5,10 @@ public class Array {
         for(int i=0; i<arr.length; i++){
             System.out.println(arr[i]);
         }
+        //diff method to print
+        for(int i : arr){
+            System.out.println(i);
+        }
         
         int arr1[] = new int[10]; // to define the size of an array for dynamic allocation
        
