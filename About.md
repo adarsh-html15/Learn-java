@@ -544,3 +544,164 @@ public void setid(int id) {
 
   -- `this.id = id` mein left side current object ki `id` variable hai
   -- Right side setter ko mila parameter `id` hai
+
+# Inheritance
+
+## What is inheritance?
+  -- Inheritance ek concept hai jisme ek class kisi doosri class ki properties aur methods ko inherit karti hai
+  -- Java mein inheritance ke liye `extends` keyword use hota hai
+  -- Child ya subclass parent ya superclass ki properties aur methods use kar sakti hai
+  -- Inheritance se code reuse hota hai aur classes ke beech relationship ban sakti hai
+  -- Java mein ek class ek time par sirf ek direct parent class ko extend kar sakti hai
+
+```java
+class Parent {
+    void show() {
+        System.out.println("This is the parent class");
+    }
+}
+
+class Child extends Parent {
+    void display() {
+        show(); // Inherited method ko call kar rahe hain
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Child child = new Child();
+        child.display();
+    }
+}
+```
+
+## Types of inheritance shown in Java
+  -- **Single inheritance:** ek child class ek hi parent ko inherit karti hai
+  -- **Multilevel inheritance:** class1 ko class2 inherit karti hai aur class2 ko class3 inherit karti hai
+  -- **Hierarchical inheritance:** ek se zyada child classes ek hi parent ko inherit karti hain
+
+```java
+class Class1 {
+}
+
+class Class2 extends Class1 {
+}
+
+class Class3 extends Class2 {
+}
+```
+
+Yahan `Class3` ek class `Class2` ko aur indirect way mein `Class1` ko inherit karti hai. Isse multilevel inheritance kehte hain.
+
+## `this` keyword
+  -- `this` current object ko refer karta hai
+  -- `this.variableName` instance variable ko refer karta hai
+  -- Constructor ke andar `this(...)` same class ke doosre constructor ko call karta hai
+  -- `this(...)` constructor mein sabse pehli statement honi chahiye
+
+```java
+class Student {
+    String name;
+    int age;
+
+    Student() {
+        this("Unknown", 18); // Calls another constructor of the same class
+    }
+
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+```
+
+  -- `this.name = name` mein `this.name` current object's instance variable hai
+  -- Right side wala `name` constructor ko mila parameter hai
+  -- `this(...)` constructor chaining create karta hai
+
+## `super` keyword
+  -- `super` direct parent class ko refer karta hai
+  -- `super(...)` parent class ke constructor ko call karta hai
+  -- `super.methodName()` parent class ke method ko call karta hai
+  -- Constructor mein `super(...)` sabse pehli statement honi chahiye
+  -- Agar constructor mein `this(...)` ya `super(...)` likha nahi hai, Java automatically `super()` call karta hai
+
+```java
+class Parent {
+    Parent() {
+        System.out.println("Parent constructor");
+    }
+
+    void show() {
+        System.out.println("Parent show method");
+    }
+}
+
+class Child extends Parent {
+    Child() {
+        super(); // Calls the parent class constructor
+        System.out.println("Child constructor");
+    }
+
+    void show() {
+        super.show(); // Calls the parent class show method
+        System.out.println("Child show method");
+    }
+}
+```
+
+## `this(...)` aur `super(...)` constructor chaining
+  -- Constructor execute hone par object creation ke according parent constructors bhi execute hoti hain
+  -- `this(...)` current class ke kisi constructor ko call karta hai
+  -- `super(...)` parent class ke constructor ko call karta hai
+  -- Ek constructor mein `this(...)` aur `super(...)` dono ek saath nahi likh sakte
+  -- Constructor chaining mein final call tak parent class ki constructor pehle execute hoti hai
+
+```java
+class Class1 {
+    Class1() {
+        super(); // Calls Object class constructor
+        System.out.println("Class1 constructor");
+    }
+}
+
+class Class2 extends Class1 {
+    Class2() {
+        super(); // Calls Class1 constructor
+        System.out.println("Class2 constructor");
+    }
+}
+
+class Class3 extends Class2 {
+    Class3() {
+        super(); // Calls Class2 constructor
+        System.out.println("Class3 constructor");
+    }
+
+    Class3(int number) {
+        this(); // Calls the no-argument Class3 constructor
+        System.out.println(number);
+    }
+
+    public static void main(String[] args) {
+        new Class3(7);
+    }
+}
+```
+
+Upar ke example ka constructor execution order:
+
+```text
+Class1 constructor
+Class2 constructor
+Class3 constructor
+7
+```
+
+## Important points
+  -- `this` current class object ko refer karta hai
+  -- `super` parent class ko refer karta hai
+  -- `this()` aur `super()` constructors ko call karte hain
+  -- `this.variableName` aur `super.variableName` fields ko access kar sakte hain
+  -- `this.methodName()` aur `super.methodName()` methods ko call kar sakte hain
+  -- `this(...)` ya `super(...)` constructor ke first statement mein hona chahiye
