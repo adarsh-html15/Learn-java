@@ -705,3 +705,11 @@ Class3 constructor
   -- `this.variableName` aur `super.variableName` fields ko access kar sakte hain
   -- `this.methodName()` aur `super.methodName()` methods ko call kar sakte hain
   -- `this(...)` ya `super(...)` constructor ke first statement mein hona chahiye
+
+## anonymus object 
+  which object don't have any referance variable, it is created only.
+  ```
+  public static void main(srting agrs[]){
+    new student();
+  }
+  ```
