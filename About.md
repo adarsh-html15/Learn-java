@@ -202,27 +202,31 @@ class Main {
 # Methods
 
 ## What is a method?
-  -- Method class ke andar code ka block hota hai jo ek specific task perform karta hai
-  -- Method ko call karne par uska code execute hota hai
-  -- Ek method ko baar-baar call karke code reuse kar sakte hain
+  -- A method is a block of code inside a class that performs a specific task
+  -- The method code executes when the method is called
+  -- Methods help divide a program into reusable and organized parts
+  -- A class can contain variables and the methods that operate on those variables
 
 ## Method syntax
 
 ```java
 accessModifier returnType methodName(parameters) {
-    // method ka code
-    return value; // jab return type void na ho
+    // Method body
+    return value; // Required when the return type is not void
 }
 ```
 
-  -- `accessModifier` controls ki method kahan se access ho sakta hai, jaise `public` ya `private`
-  -- `returnType` batata hai method kis type ki value return karega; value nahi deni ho to `void` use karein
-  -- `parameters` method ke input values hote hain; method bina parameters ke bhi ho sakta hai
+  -- `accessModifier` determines where the method can be accessed
+  -- Common access modifiers are `public`, `private`, `protected`, and package-private
+  -- `returnType` specifies the type of value returned by the method
+  -- Use `void` when the method does not return any value
+  -- `parameters` are inputs passed to the method
+  -- A method can have zero or more parameters
 
-## Instance method example
-  -- Instance method object se belong karta hai, isliye ise call karne ke liye object banana padta hai
-  -- `introduce()` student ka introduction print karta hai
-  -- `isAdult()` age check karke `true` ya `false` return karta hai
+## Instance method
+  -- An instance method belongs to an object of the class
+  -- It can access instance variables and other instance methods
+  -- It can be called only through an object
 
 ```java
 class Student {
@@ -230,7 +234,7 @@ class Student {
     int age;
 
     void introduce() {
-        System.out.println("Mera naam " + name + " hai");
+        System.out.println("My name is " + name);
     }
 
     boolean isAdult() {
@@ -242,34 +246,36 @@ class Student {
         student.name = "Aman";
         student.age = 20;
 
-        student.introduce(); // Mera naam Aman hai
-        System.out.println(student.isAdult()); // true
+        student.introduce(); // Output: My name is Aman
+        System.out.println(student.isAdult()); // Output: true
     }
 }
 ```
 
-Yahan `student.introduce()` method call karta hai. `isAdult()` ka returned result `println` print karta hai.
+  -- `student.introduce()` calls the instance method using the `student` object
+  -- `student.isAdult()` returns a boolean value
 
 ## Void method
-  -- `void` method koi value return nahi karta
-  -- Phir bhi method apna kaam kar sakta hai, jaise screen par message print karna
+  -- A `void` method does not return a value
+  -- It can perform an action such as displaying a message or updating a variable
 
 ```java
 class Greeter {
     void greet(String name) {
-        System.out.println("Namaste, " + name);
+        System.out.println("Hello, " + name);
     }
 }
 ```
 
 ## Static method
-  -- `static` method class se belong karta hai, kisi specific object se nahi
-  -- Ise object create kiye bina class name se call kar sakte hain
+  -- A `static` method belongs to the class rather than a specific object
+  -- It can be called using the class name without creating an object
+  -- A static method cannot directly access non-static instance variables or instance methods
 
 ```java
 class MathTools {
     static int square(int number) {
-        return number * number; // number ka square return karta hai
+        return number * number;
     }
 
     public static void main(String[] args) {
@@ -279,25 +285,27 @@ class MathTools {
 ```
 
 ## Method overloading
-  -- Same class mein same name ke multiple methods ho sakte hain, agar unki parameter lists different hon
-  -- Parameters ki number, type, ya order different ho sakti hai
-  -- Sirf return type change karne se method overload nahi hota
-  -- Compiler arguments ke basis par correct method choose karta hai; ise compile-time polymorphism kehte hain
+  -- Method overloading allows multiple methods with the same name in the same class
+  -- The methods must have different parameter lists
+  -- The parameter list can differ by the number, type, or order of parameters
+  -- Changing only the return type does not overload a method
+  -- The compiler selects the appropriate method based on the arguments
+  -- Method overloading is one form of compile-time polymorphism
 
 ```java
 class Calculator {
     int add(int a, int b) {
-        return a + b; // two numbers ka sum
+        return a + b;
     }
 
     int add(int a, int b, int c) {
-        return a + b + c; // three numbers ka sum
+        return a + b + c;
     }
 
     public static void main(String[] args) {
         Calculator calculator = new Calculator();
-        System.out.println(calculator.add(10, 20)); // 2 parameters wala method: 30
-        System.out.println(calculator.add(10, 20, 30)); // 3 parameters wala method: 60
+        System.out.println(calculator.add(10, 20)); // Output: 30
+        System.out.println(calculator.add(10, 20, 30)); // Output: 60
     }
 }
 ```
@@ -305,15 +313,16 @@ class Calculator {
 # Constructors
 
 ## What is a constructor?
-  -- Constructor object create hote waqt uski initial values set karta hai
-  -- Constructor ka naam class ke naam ke same hona chahiye
-  -- Constructor ka return type nahi hota, `void` bhi nahi
-  -- `new` keyword se object banate waqt constructor automatically call hota hai
-  -- Constructor technically method nahi hota
+  -- A constructor is a special block of code used to initialize an object
+  -- It runs automatically when an object is created using `new`
+  -- The constructor name must match the class name
+  -- A constructor has no return type, including `void`
+  -- Although similar to a method, a constructor is not technically a method
+  -- A constructor is mainly used to assign initial values to instance variables
 
 ## Parameterized constructor example
-  -- Parameterized constructor inputs lekar object ke fields initialize karta hai
-  -- `new Student("Aman", 18)` mein `"Aman"` aur `18` constructor ke arguments hain
+  -- A parameterized constructor accepts values and uses them to initialize an object
+  -- In `new Student("Aman", 18)`, `"Aman"` and `18` are constructor arguments
 
 ```java
 class Student {
@@ -334,29 +343,31 @@ class Student {
 ```
 
 ## No-argument and default constructors
-  -- No-argument constructor mein koi parameter nahi hota
-  -- Agar class mein koi constructor declare nahi kiya, Java compiler default no-argument constructor provide karta hai
-  -- Apna constructor declare karne ke baad compiler default constructor provide nahi karta
+  -- A no-argument constructor has no parameters
+  -- If a class declares no constructor, Java provides a default no-argument constructor
+  -- The default constructor initializes fields to their default values
+  -- Java does not provide a default constructor if the class declares any constructor
 
 ```java
 class Student {
     String name;
 
     Student() {
-        name = "Unknown"; // default starting name
+        name = "Unknown";
     }
 
     public static void main(String[] args) {
-        Student student = new Student(); // no-argument constructor call
+        Student student = new Student();
         System.out.println(student.name); // Output: Unknown
     }
 }
 ```
 
 ## Constructor overloading and `this(...)`
-  -- Same class mein different parameter lists wale multiple constructors ho sakte hain
-  -- `this(...)` isi class ke another constructor ko call karta hai
-  -- `this(...)` constructor ke andar first statement honi chahiye
+  -- Constructor overloading means defining multiple constructors with different parameter lists
+  -- The parameter list can differ by the number or type of parameters
+  -- `this(...)` calls another constructor in the same class
+  -- `this(...)` must be the first statement in the constructor
 
 ```java
 class Box {
@@ -364,26 +375,32 @@ class Box {
     int height;
 
     Box() {
-        this(1, 1); // default size set karne ke liye doosra constructor call
+        this(1, 1); // Calls the parameterized constructor
     }
 
     Box(int width, int height) {
-        this.width = width;   // left side object ka field, right side parameter
-        this.height = height; // left side object ka field, right side parameter
+        this.width = width;
+        this.height = height;
+    }
+
+    public static void main(String[] args) {
+        Box box = new Box();
+        System.out.println(box.width + ", " + box.height); // Output: 1, 1
     }
 }
 ```
 
 ## The `this` keyword
-  -- `this` current object ko refer karta hai
-  -- Parameter aur field ka naam same ho, to `this.fieldName` se object ka field identify karte hain
+  -- `this` refers to the current object
+  -- If a parameter has the same name as an instance variable, `this.variableName` refers to the instance variable
+  -- The parameter name without `this` refers to the parameter
 
 ```java
 class Student {
     String name;
 
     Student(String name) {
-        this.name = name; // left: object ka field, right: parameter
+        this.name = name;
     }
 
     public static void main(String[] args) {
@@ -397,11 +414,12 @@ class Student {
 
 | Method | Constructor |
 |---|---|
-| Call hone par specific task perform karta hai | Object creation ke waqt initialize karta hai |
-| Koi bhi valid naam ho sakta hai | Class ke naam ke same hona chahiye |
-| Return type ya `void` hota hai | Return type nahi hota |
-| Code se explicitly call karte hain | `new` se object banate waqt call hota hai |
-| Overload ho sakta hai | Different parameters ke saath overload ho sakta hai |
+| Performs a specific task | Initializes a newly created object |
+| Can have any valid method name | Must have the same name as the class |
+| Must have a return type or `void` | Has no return type |
+| Can be called explicitly from code | Is called automatically by `new` |
+| Can be overloaded | Can be overloaded |
+| Is not required to initialize an object | Is designed to initialize an object |
 
 # Arrays
 
@@ -450,3 +468,79 @@ Pehla loop values `10, 20, 30, ... 100` assign karta hai. Doosra loop un values 
   -- Valid indexes `0` se `length - 1` tak hote hain; is range ke bahar access karne par error aata hai
   -- Array ke saare elements ka data type same hota hai
   -- `int[] arr` aur `int arr[]` dono valid declarations hain; `int[] arr` zyada commonly use hota hai
+
+# Encapsulation
+
+## What is encapsulation?
+  -- Encapsulation code aur data ko ek class ke andar ek unit mein wrap karna hai
+  -- Class ke private variables ko direct access se hidden (data hiding) rakha jata hai
+  -- Variables ko normally public getter aur setter methods ke through access ya update karte hain
+
+## Encapsulation example
+
+```java
+class encapsulation {
+    private int id = 10;
+    private String name = "Adarsh";
+
+    public int getid() {
+        return id;
+    }
+
+    public void setid(int n) {
+        this.id = n;
+    }
+
+    public String getname() {
+        return name;
+    }
+
+    public void setname(String n) {
+        this.name = n;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        encapsulation obj = new encapsulation();
+
+        System.out.println(obj.getid());   // 10
+        System.out.println(obj.getname()); // Adarsh
+
+        obj.setid(20);
+        obj.setname("Aakansha");
+
+        System.out.println(obj.getid());   // 20
+        System.out.println(obj.getname()); // Aakansha
+    }
+}
+```
+
+## `private` variables
+  -- `private int id` aur `private String name` ko isi class ke bahar direct access nahi kar sakte
+  -- Isse dusri classes variables ki value ko bina control ke change nahi kar sakti
+
+## Getter methods
+  -- Getter method private variable ki value read karta hai
+  -- Getter method ka return type variable ke type ke same hota hai
+  -- Example: `getid()` `int` return karta hai aur `getname()` `String` return karta hai
+
+## Setter methods
+  -- Setter method private variable ki value update karta hai
+  -- Setter method ka return type normally `void` hota hai
+  -- Example: `setid(20)` se `id` ki value `20` ho jati hai
+
+## `this` keyword
+  -- `this` current object ko refer karta hai
+  -- Jab parameter aur instance variable ka naam same ho, `this.id` object ki variable ko aur `id` parameter ko represent karta hai
+
+```java
+private int id;
+
+public void setid(int id) {
+    this.id = id;
+}
+```
+
+  -- `this.id = id` mein left side current object ki `id` variable hai
+  -- Right side setter ko mila parameter `id` hai
