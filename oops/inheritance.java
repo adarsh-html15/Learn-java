@@ -39,6 +39,11 @@ class class3 extends class2 {
         return a + b ;
     }
 
+    @Override // this is used to call the method of the super class.
+    public String location() {
+        return "ye class3 ka hai ";
+    }
+
 }
 
 public class inheritance {
@@ -47,6 +52,7 @@ public class inheritance {
         System.out.println(obj.location());
         class3 obj2 = new class3(7);
         System.out.println(obj2.add(3,6));
+        System.out.println(obj2.location());
         
     }
 }

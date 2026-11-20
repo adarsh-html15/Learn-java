@@ -2,7 +2,7 @@
 // instance of class is called object
 // class is a blueprint and object is an instance of class 
 
-class calculator {
+class calculator extends add{
     int a=5;
     int b=10;
 
