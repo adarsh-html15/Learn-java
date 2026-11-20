@@ -738,3 +738,223 @@ Class3 constructor
   -- Direct multiple class inheritance ki jagah interfaces ya composition use karein
   -- Variables ke liye clear aur unique variable names rakhein
 
+# Polymorphism
+
+## What is polymorphism?
+  -- Polymorphism ka matlab hai "many forms"
+  -- Ek hi method ya constructor different situations mein different forms ya behavior de sakta hai
+  -- Java mein polymorphism method overloading aur method overriding ke through implement hota hai
+  -- Polymorphism code ko flexible, reusable aur easy to extend banata hai
+
+## Types of polymorphism
+  -- **Compile-time polymorphism:** Method overloading ya constructor overloading
+  -- **Runtime polymorphism:** Method overriding aur dynamic method dispatch
+
+## Compile-time polymorphism
+  -- Compile-time polymorphism ko method overloading bhi kehte hain
+  -- Same class mein same name ke multiple methods ho sakte hain, lekin parameter list different honi chahiye
+  -- Parameter list number, type, ya order mein differ kar sakti hai
+  -- Return type ko change karne se method overloading nahi hoti
+
+```java
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
+
+    double add(double a, double b) {
+        return a + b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator calculator = new Calculator();
+        System.out.println(calculator.add(10, 20));       // 30
+        System.out.println(calculator.add(10, 20, 30));   // 60
+        System.out.println(calculator.add(2.5, 3.5));   // 6.0
+    }
+}
+```
+
+  -- Compiler arguments ko dekhkar call hone wale method ko compile time par decide karta hai
+  -- `System.println` invalid hai; text example mein printing ke liye `System.out.println` use karein
+
+## Constructor overloading
+  -- Ek class mein different parameter lists ke multiple constructors ho sakte hain
+  -- Constructor overloading bhi compile-time polymorphism ka example hai
+  -- One constructor ko `this(...)` ke through doosre constructor ko call kar sakte hain
+
+```java
+class Student {
+    String name;
+    int age;
+
+    Student() {
+        this("Unknown", 18);
+    }
+
+    Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+```
+
+## Runtime polymorphism
+  -- Runtime polymorphism ko method overriding ke through implement kiya jata hai
+  -- Child class parent class ke method ko apni requirement ke according redefine kar sakti hai
+  -- Method ka naam, return type aur parameter list parent method ke same hone chahiye
+  -- Access modifier parent se kam restrictive hona chahiye
+
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Dog barks");
+    }
+}
+
+class Cat extends Animal {
+    @Override
+    void sound() {
+        System.out.println("Cat meows");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Animal animal;
+
+        animal = new Dog();
+        animal.sound(); // Dog barks
+
+        animal = new Cat();
+        animal.sound(); // Cat meows
+    }
+}
+```
+
+## Dynamic method dispatch
+  -- Dynamic method dispatch runtime polymorphism ki mechanism hai
+  -- Parent class ka reference child class ke object ko hold kar sakta hai
+  -- Method call object ke actual type ke according resolve hoti hai, reference type ke according nahi
+  -- Is process ko runtime polymorphism ya virtual method invocation kehte hain
+
+```java
+Animal animal = new Dog();
+animal.sound();
+```
+
+  -- Yahan reference `Animal` type ka hai
+  -- Object actual mein `Dog` class ka hai
+  -- Isliye `Dog` ka `sound()` execute hota hai
+
+## `@Override`
+  -- `@Override` annotation batata hai ki method parent method ko override kar rahi hai
+  -- Ye compiler ko check karne deta hai ki valid overriding ho rahi hai
+  -- Ye mandatory nahi hai, lekin recommended hai
+  -- Agar method signature galat ho, compiler error deta hai
+
+```java
+class Parent {
+    void print() {
+        System.out.println("Parent");
+    }
+}
+
+class Child extends Parent {
+    @Override
+    void print() {
+        System.out.println("Child");
+    }
+}
+```
+
+## Method overloading vs method overriding
+
+| Method overloading | Method overriding |
+|---|---|
+| Same class mein hota hai | Parent aur child classes ke beech hota hai |
+| Parameter list different hoti hai | Parameter list same hoti hai |
+| Compile-time polymorphism hai | Runtime polymorphism hai |
+| Inheritance necessary nahi hai | Inheritance necessary hai |
+| Return type differ ho sakta hai agar parameters bhi differ karein | Return type usually same ya covariant hota hai |
+
+## `final` aur polymorphism
+  -- `final` method ko child class override nahi kar sakti
+  -- `final` class ko koi class extend nahi kar sakti
+  -- Static aur private methods ko normal overriding ke through override nahi kar sakte
+
+```java
+class Parent {
+    final void show() {
+        System.out.println("Cannot override");
+    }
+}
+
+final class FinalClass {
+}
+
+// final class ko extend nahi kar sakte
+// class Child extends FinalClass {
+// }
+```
+
+## Important points
+  -- Overloading compile-time polymorphism hai
+  -- Overriding runtime polymorphism hai
+  -- Parent reference child object hold kar sakta hai
+  -- Runtime par actual object type method selection decide karta hai
+  -- `@Override` overriding ko safe aur readable banata hai
+
+# Upcasting and Downcasting
+
+## Upcasting
+  -- Child class ke object ko parent class ke reference mein assign karna upcasting hai
+  -- Java implicit upcasting karta hai
+  -- Sirf parent class ke methods aur fields accessible hoti hain
+
+```java
+class Animal {
+    void sound() {
+        System.out.println("Animal sound");
+    }
+}
+
+class Dog extends Animal {
+    void bark() {
+        System.out.println("Bark");
+    }
+}
+
+Animal animal = new Dog(); // Upcasting
+animal.sound();
+// animal.bark(); // Error: parent reference bark() ko nahi janta
+```
+
+## Downcasting
+  -- Parent reference ko child class ke reference mein convert karna downcasting hai
+  -- Downcasting explicit hoti hai; `(Dog) animal` likhna padta hai
+  -- Unsafe casting se `ClassCastException` aa sakti hai
+  -- Casting se pehle `instanceof` se type check karein
+
+```java
+Animal animal = new Dog(); // Upcasting
+
+if (animal instanceof Dog) {
+    Dog dog = (Dog) animal; // Downcasting
+    dog.bark();
+}
+```
+
