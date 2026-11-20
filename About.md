@@ -713,3 +713,28 @@ Class3 constructor
     new student();
   }
   ```
+
+# Ambiguity
+
+## What is ambiguity?
+  -- Ambiguity tab hoti hai jab ek class ko do ya zyada same-named methods ya variables milte hain aur compiler clear nahi kar pata ki kis member ko use karna hai
+  -- Java mein multiple inheritance of classes allowed nahi hai, isliye class-level diamond problem se bachaya gaya hai
+ 
+## Interface default method ambiguity
+  -- Agar ek class do interfaces implement kare aur dono mein same default method ho
+  -- To class ko method ko override karke exact implementation batani hoti hai
+  -- Ambiguous call ko avoid karne ke liye `InterfaceName.super.methodName()` use kar sakte hain
+
+## Field ambiguity
+  -- Do parent interfaces ya classes mein same variable name ho to direct access ambiguous ho sakta hai
+  -- Instance variable ke case mein child class apna separate variable bana sakti hai
+  -- Interface ke variable by default `public static final` hote hain
+  -- Specific parent class ko explicitly `super.variableName` ya interface ka naam use karke access kar sakte hain
+
+
+## Resolving ambiguity
+  -- Conflicting default methods ko child class mein override karein
+  -- Interface-specific method call ke liye `InterfaceName.super.methodName()` use karein
+  -- Direct multiple class inheritance ki jagah interfaces ya composition use karein
+  -- Variables ke liye clear aur unique variable names rakhein
+
