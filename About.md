@@ -958,3 +958,346 @@ if (animal instanceof Dog) {
 }
 ```
 
+# Abstraction
+
+## What is abstraction?
+  -- Abstraction implementation details ko chhupakar sirf zaroori features dikhata hai
+  -- User ko object ke kaam par focus karwata hai, uske internal working par nahi
+  -- Java mein abstraction abstract classes aur interfaces ke through achieve hoti hai
+  -- Abstraction code ko flexible aur implementation-independent banata hai
+
+
+  -- Jis class ke saath `abstract` keyword likha ho, woh abstract class hoti hai
+  -- Abstract class ka object directly nahi bana sakte
+  -- Abstract class mein abstract aur concrete methods dono ho sakte hain
+  -- Abstract method ka sirf declaration hota hai, implementation nahi
+  -- Child class ko abstract methods ki implementation deni hoti hai
+
+```java
+abstract class Payment {
+    double amount;
+
+    Payment(double amount) {
+        this.amount = amount;
+    }
+
+    abstract void pay();
+
+    void showAmount() {
+        System.out.println("Amount: " + amount);
+    }
+}
+
+class CardPayment extends Payment {
+    CardPayment(double amount) {
+        super(amount);
+    }
+
+    @Override
+    void pay() {
+        System.out.println("Paid " + amount + " using card");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Payment payment = new CardPayment(500);
+        payment.showAmount();
+        payment.pay();
+    }
+}
+```
+
+## Abstract class
+
+  -- Jis class ke saath `abstract` keyword likha ho, woh abstract class hoti hai
+  -- Abstract class ka object directly nahi bana sakte
+  -- Abstract class mein abstract aur concrete methods dono ho sakte hain
+  -- Abstract method ka sirf declaration hota hai, implementation nahi
+  -- Child class ko abstract methods ki implementation deni hoti hai
+
+```java
+abstract class Payment {
+  -- Yahan user `pay()` ko call karta hai
+  -- Actual implementation kaise execute hoti hai, woh child class me chhupi hoti hai
+
+## Interface
+  -- Interface ek complete abstraction provide karta hai
+  -- Interface mein methods normally public aur abstract hote hain
+  -- Java 8 se interface mein `default` aur `static` methods bhi ho sakte hain
+  -- Ek class multiple interfaces implement kar sakti hai
+  -- Interface reference child object ko hold kar sakta hai
+
+```java
+interface Printer {
+    void print(String document);
+}
+
+class InkjetPrinter implements Printer {
+    @Override
+    public void print(String document) {
+        System.out.println("Inkjet printing: " + document);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Printer printer = new InkjetPrinter();
+        printer.print("Java notes");
+    }
+}
+```
+
+## Abstract class vs interface
+
+| Abstract class | Interface |
+|---|---|
+| Ek abstract ya concrete class extend ki ja sakti hai | Ek class multiple interfaces implement kar sakti hai |
+| Instance variables aur constructors ho sakte hain | Traditionally instance variables aur constructors nahi hote |
+| Abstract aur concrete methods dono ho sakte hain | Default implementation ke saath methods bhi ho sakte hain |
+| "Is-a" relationship ke liye useful hai | "Can-do" ya capability ke liye useful hai |
+
+## Important points
+  -- Abstract class aur interface ka object directly nahi bana sakte
+  -- Abstract methods ko child class ya implementing class me implement karna hota hai
+  -- Abstraction implementation ko hide karta hai, encapsulation data ko hide karta hai
+  -- Abstraction large systems ko small aur understandable parts mein todti hai
+  -- Runtime polymorphism abstraction ke saath saath use hoti hai
+
+# Exception Handling
+
+## What is an exception?
+  -- Exception runtime par aane wali unexpected problem hai
+  -- Exception ke bina program normally crash ho sakta hai
+  -- Java exceptions ko objects ke through represent karta hai
+  -- Exception handling se program crash hone ke baad bhi controlled response de sakta hai
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        int result = 10 / 0;
+        System.out.println("This line will not run");
+    }
+}
+```
+
+  -- Yahan `ArithmeticException` aaegi
+  -- Exception handle na ho to program abnormal way mein terminate ho jayega
+
+## Exception hierarchy
+
+| Type | Description |
+|---|---|
+| `Throwable` | Java mein sabhi errors aur exceptions ki parent class hai |
+| `Error` | Serious system problems, usually application handling ke liye nahi hoti |
+| `Exception` | Application level problems, jinhe handle kiya ja sakta hai |
+| `RuntimeException` | Runtime exceptions ki parent class hai |
+| `Checked exception` | Compile time par handle ya declare karna padta hai |
+| `Unchecked exception` | Runtime par detect hoti hain aur compiler force nahi karta |
+
+```text
+Throwable
+├── Error
+└── Exception
+    ├── Checked Exceptions
+    └── RuntimeException
+        └── Unchecked Exceptions
+```
+
+## Checked exceptions
+  -- `IOException`, `SQLException`, aur `ClassNotFoundException` checked exceptions hain
+  -- Checked exceptions ko method ke andar `try-catch` se handle karna hota hai
+  -- Ya phir method signature me `throws` se declare karna hota hai
+
+```java
+import java.io.IOException;
+
+public class Main {
+    static void readFile() throws IOException {
+        throw new IOException("File not found");
+    }
+
+    public static void main(String[] args) {
+        try {
+            readFile();
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+}
+```
+
+## Unchecked exceptions
+  -- Unchecked exceptions `RuntimeException` aur uski subclasses hain
+  -- Common examples `ArithmeticException`, `NullPointerException`, aur `ArrayIndexOutOfBoundsException` hain
+  -- Compiler ye exceptions handle karne ko mandatory nahi banata
+  -- Inhe avoid karne ke liye input aur object state validate karni chahiye
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        String name = null;
+
+        if (name != null) {
+            System.out.println(name.length());
+        } else {
+            System.out.println("Name is null");
+        }
+    }
+}
+```
+
+## try-catch
+  -- Risky code `try` block me likha jata hai
+  -- Exception aaye to matching `catch` block execute hota hai
+  -- Ek `try` ke baad multiple `catch` blocks ho sakte hain
+  -- Specific exception ko general exception se pehle catch karna chahiye
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        try {
+            int[] numbers = {10, 20, 30};
+            System.out.println(numbers[5]);
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            System.out.println("Invalid array index");
+        } catch (Exception exception) {
+            System.out.println("Some exception occurred");
+        }
+    }
+}
+```
+
+## finally
+  -- `finally` block `try-catch` ke baad optional hota hai
+  -- Exception aaye ya na aaye, `finally` block execute hota hai
+  -- Commonly resources close karne ke liye use hota hai
+
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+            System.out.println("Enter a number:");
+            int number = scanner.nextInt();
+            System.out.println("Number: " + number);
+        } catch (Exception exception) {
+            System.out.println("Invalid input");
+        } finally {
+            scanner.close();
+            System.out.println("Scanner closed");
+        }
+    }
+}
+```
+
+## throw
+  -- `throw` keyword se manually exception object throw kiya jata hai
+  -- `throw` ke saath ek exception instance dena hota hai
+  -- Input ya business rule galat ho to custom error throw ki ja sakti hai
+
+```java
+public class Main {
+    static void checkAge(int age) {
+        if (age < 18) {
+            throw new IllegalArgumentException("Age must be 18 or above");
+        }
+        System.out.println("Valid age");
+    }
+
+    public static void main(String[] args) {
+        checkAge(15);
+    }
+}
+```
+
+## throws
+  -- `throws` keyword method signature me exception declare karta hai
+  -- Yeh calling method ko warning deta hai ki exception aa sakti hai
+  -- Checked exception ke liye `throws` use ho sakta hai
+  -- Runtime exceptions ko normally declare karna zaroori nahi hota
+
+```java
+import java.io.IOException;
+
+public class Main {
+    static void saveData() throws IOException {
+        throw new IOException("Unable to save data");
+    }
+}
+```
+
+## throw vs throws
+
+| `throw` | `throws` |
+|---|---|
+| Exception manually throw karta hai | Method ke possible exceptions declare karta hai |
+| Method ya block ke andar use hota hai | Method signature ke andar use hota hai |
+| Ek exception instance throw karta hai | Ek ya multiple exception types list kar sakta hai |
+| `throw new IOException()` | `void method() throws IOException` |
+
+## try-with-resources
+  -- Java 7 se resource ko automatically close karne ke liye use hota hai
+  -- Resource ko `try(...)` ke andar declare karte hain
+  -- Resource ko `AutoCloseable` interface implement karna hota hai
+  -- `finally` block ki need kam ho jati hai
+
+```java
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (FileReader reader = new FileReader("data.txt")) {
+            int character = reader.read();
+            System.out.println(character);
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+}
+```
+
+## Custom exception
+  -- Application-specific problem ke liye custom exception banate hain
+  -- Checked custom exception ke liye `Exception` extend karte hain
+  -- Unchecked custom exception ke liye `RuntimeException` extend karte hain
+  -- Custom exception se problem ka clear naam aur message milta hai
+
+```java
+class InvalidAgeException extends RuntimeException {
+    InvalidAgeException(String message) {
+        super(message);
+    }
+}
+
+public class Main {
+    static void checkAge(int age) {
+        if (age < 18) {
+            throw new InvalidAgeException("Age must be 18 or above");
+        }
+    }
+
+    public static void main(String[] args) {
+        checkAge(15);
+    }
+}
+```
+
+## Important exception methods
+  -- `getMessage()` exception ka short description return karta hai
+  -- `printStackTrace()` exception aur call stack print karta hai
+  -- `getCause()` exception ka underlying cause return karta hai
+  -- `toString()` exception class ka naam aur message return karta hai
+
+## Important points
+  -- Exception handling program ko crash hone se bachati hai
+  -- `try-catch-finally` resource aur error handling ke liye use hota hai
+  -- Specific exceptions ko general exceptions se pehle catch karein
+  -- `finally` ya try-with-resources se resources close karein
+  -- Exception ko tab throw karein jab koi operation apni normal condition fulfill na kar sake
+  -- Exception messages clear aur meaningful hone chahiye
+  -- Validation se common runtime exceptions ko pehle hi avoid kiya ja sakta hai
