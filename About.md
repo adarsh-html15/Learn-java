@@ -966,6 +966,7 @@ if (animal instanceof Dog) {
   -- Java mein abstraction abstract classes aur interfaces ke through achieve hoti hai
   -- Abstraction code ko flexible aur implementation-independent banata hai
 
+## Abstract class
 
   -- Jis class ke saath `abstract` keyword likha ho, woh abstract class hoti hai
   -- Abstract class ka object directly nahi bana sakte
@@ -1008,16 +1009,7 @@ public class Main {
 }
 ```
 
-## Abstract class
 
-  -- Jis class ke saath `abstract` keyword likha ho, woh abstract class hoti hai
-  -- Abstract class ka object directly nahi bana sakte
-  -- Abstract class mein abstract aur concrete methods dono ho sakte hain
-  -- Abstract method ka sirf declaration hota hai, implementation nahi
-  -- Child class ko abstract methods ki implementation deni hoti hai
-
-```java
-abstract class Payment {
   -- Yahan user `pay()` ko call karta hai
   -- Actual implementation kaise execute hoti hai, woh child class me chhupi hoti hai
 
