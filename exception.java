@@ -13,6 +13,7 @@ public class exception {
       try{
           j = 10/i; // ArithmeticException: / by zero
           arr[10] = 5; // ArrayIndexOutOfBoundsException
+          System.out.println(arr[2]);
           if(j==0){
             throw new Exception("this will through the exception");
           }
