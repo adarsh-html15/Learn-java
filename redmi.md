@@ -1,5 +1,37 @@
+## Java Topics
+
+- [Compiler javac](#compiler-javac)
+- [JVM](#jvm)
+- [JRE](#jre)
+- [Variable](#variable)
+- [Data type](#data-type)
+- [User Input using Scanner](#scanner)
+- [Packages and Access Modifiers](#packages)
+- [Condition](#condition)
+- [Iteration / Loops](#loops)
+- [Class and Object](#class-and-object)
+- [Methods](#methods)
+- [Constructors](#constructors)
+- [Arrays](#arrays)
+- [Strings](#strings)
+- [Wrapper Classes](#wrapper-classes)
+- [Basic Collections](#collections)
+- [Encapsulation](#encapsulation)
+- [Inheritance](#inheritance)
+- [Ambiguity](#ambiguity)
+- [Polymorphism](#polymorphism)
+- [Upcasting and Downcasting](#casting)
+- [Abstraction](#abstraction)
+- [Basic File Handling](#file-handling)
+- [Basic Debugging](#debugging)
+- [Exception Handling](#exception-handling)
+
+---
+
+<a id="compiler-javac"></a>
 # Compiler javac
   --convert java files into byte code
+<a id="jvm"></a>
 # JVM java vertual  machine 
   --understand only byte code
   -- Jvm looks for Public static void main(String a[])
@@ -7,18 +39,85 @@
   for run code first compile by the code javac file_name 
   the it will creat a byte code then java class_name  it will run the code
 
+<a id="jre"></a>
 # JRE java runtime environment
  it is besicaly # JVM + libreries  
  JVM < JRE < JDK
  WORA (write once run anywhere)
+<a id="variable"></a>
 # Variable 
   location at memory... 
+<a id="data-type"></a>
 # Data type
   -- Integer
   -- Float
   -- Charecter
   -- Boolean
 
+<a id="scanner"></a>
+# User Input using Scanner
+  -- `Scanner` class keyboard ya console se input lene ke liye use hoti hai
+  -- `Scanner` `java.util` package ka part hai
+  -- `import java.util.Scanner;` likhkar scanner class ko program mein import karte hain
+  -- Program khatam hone par `scanner.close()` se resource close karna achhi practice hai
+
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Age: ");
+        int age = scanner.nextInt();
+
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+
+        scanner.close();
+    }
+}
+```
+
+## Common Scanner methods
+  -- `nextInt()` integer input leta hai
+  -- `nextDouble()` decimal input leta hai
+  -- `nextLine()` poori line input leta hai
+  -- `next()` ek word input leta hai
+  -- Integer input ke baad `nextLine()` use karne se pehle extra newline clear karna pad sakta hai
+
+<a id="packages"></a>
+# Packages and Access Modifiers
+
+## Package
+  -- Package related classes ko ek folder ya group mein organize karta hai
+  -- Package declaration file ke sabse upar hoti hai
+  -- Built-in package ko use karne ke liye `import` keyword use hota hai
+
+```java
+package com.example;
+
+import java.util.Scanner;
+```
+
+## Access modifiers
+  -- `public` members ko kisi bhi class se access kar sakte hain
+  -- `private` member sirf wahi class access kar sakti hai
+  -- `protected` member same package aur subclasses se access ho sakta hai
+  -- Modifier na dene par default/package-private access milta hai
+  -- Default access sirf same package ki classes ko milta hai
+
+| Modifier | Same class | Same package | Subclass | Other package |
+|---|---|---|---|---|
+| `private` | Yes | No | No | No |
+| Default | Yes | Yes | No | No |
+| `protected` | Yes | Yes | Yes | No |
+| `public` | Yes | Yes | Yes | Yes |
+
+<a id="condition"></a>
 # Condition
   -- Condition is used to make decisions in a program
   -- Java uses true or false to check a condition
@@ -84,6 +183,7 @@ switch (day) {
   -- `||` OR: at least one condition must be true
   -- `!` NOT: reverses true or false
 
+<a id="loops"></a>
 # Iteration (Loops)
   -- A loop repeats a block of code
   -- Use loops to avoid writing the same code again and again
@@ -136,6 +236,7 @@ for (int number : numbers) {
   -- `break` stops the loop
   -- `continue` skips the current repetition and moves to the next one
 
+<a id="class-and-object"></a>
 # Class and Object
 
 ## Class
@@ -199,6 +300,7 @@ class Main {
   -- `student1` and `student2` refer to the same object
   -- Changing the object using one reference can be seen through the other reference
 
+<a id="methods"></a>
 # Methods
 
 ## What is a method?
@@ -284,6 +386,29 @@ class MathTools {
 }
 ```
 
+## Static variable
+  -- `static` variable class ka shared variable hota hai
+  -- Har object alag static variable nahi banata; saare objects same variable share karte hain
+  -- Class name se static variable access kiya ja sakta hai
+
+```java
+class Counter {
+    static int count = 0;
+
+    Counter() {
+        count++;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        new Counter();
+        new Counter();
+        System.out.println(Counter.count); // 2
+    }
+}
+```
+
 ## Method overloading
   -- Method overloading allows multiple methods with the same name in the same class
   -- The methods must have different parameter lists
@@ -310,6 +435,7 @@ class Calculator {
 }
 ```
 
+<a id="constructors"></a>
 # Constructors
 
 ## What is a constructor?
@@ -421,6 +547,7 @@ class Student {
 | Can be overloaded | Can be overloaded |
 | Is not required to initialize an object | Is designed to initialize an object |
 
+<a id="arrays"></a>
 # Arrays
 
 ## What is an array?
@@ -469,6 +596,135 @@ Pehla loop values `10, 20, 30, ... 100` assign karta hai. Doosra loop un values 
   -- Array ke saare elements ka data type same hota hai
   -- `int[] arr` aur `int arr[]` dono valid declarations hain; `int[] arr` zyada commonly use hota hai
 
+<a id="strings"></a>
+# Strings
+  -- `String` text ko store karne ke liye use hoti hai
+  -- String class `java.lang` package mein hai, isliye alag se import karne ki zaroorat nahi
+  -- Strings immutable hoti hain; string ko modify karne par usually nayi String object banti hai
+
+```java
+String name = "Java";
+System.out.println(name.length()); // 4
+```
+
+## Common String methods
+  -- `length()` string mein characters ki count deta hai
+  -- `charAt(index)` kisi index ka character deta hai
+  -- `substring(start, end)` string ka selected part deta hai
+  -- `toUpperCase()` aur `toLowerCase()` case change karte hain
+  -- `trim()` string ke start aur end ki spaces hataata hai
+  -- `contains(text)` check karta hai text present hai ya nahi
+  -- `startsWith(text)` aur `endsWith(text)` prefix ya suffix check karte hain
+  -- `equals(text)` case-sensitive value compare karta hai
+  -- `equalsIgnoreCase(text)` case ko ignore karke value compare karta hai
+
+```java
+String text = "Java Programming";
+
+System.out.println(text.length());
+System.out.println(text.charAt(0)); // J
+System.out.println(text.substring(0, 4)); // Java
+System.out.println(text.toUpperCase());
+System.out.println(text.contains("Program")); // true
+System.out.println(text.equals("java programming")); // false
+```
+
+## String value comparison
+  -- String compare karne ke liye `==` ki jagah `equals()` use karein
+  -- `==` reference compare kar sakta hai; `equals()` content compare karta hai
+
+```java
+String first = new String("Java");
+String second = new String("Java");
+
+System.out.println(first == second); // false
+System.out.println(first.equals(second)); // true
+```
+
+## StringBuilder
+  -- String ko baar-baar modify karna ho to `StringBuilder` use hota hai
+  -- `append()` string ke end mein text add karta hai
+
+```java
+StringBuilder builder = new StringBuilder("Hello");
+builder.append(" ");
+builder.append("Java");
+System.out.println(builder.toString()); // Hello Java
+```
+
+<a id="wrapper-classes"></a>
+# Wrapper Classes
+  -- Wrapper classes primitive values ko object mein convert karti hain
+  -- Common wrappers: `Integer`, `Double`, `Character`, `Boolean`
+  -- Collections jaise `ArrayList` mein primitive type directly use nahi hota; wrapper use hota hai
+  -- Primitive ko wrapper mein convert karna autoboxing hai
+  -- Wrapper ko primitive mein convert karna unboxing hai
+
+```java
+Integer number = 10; // Autoboxing
+int value = number; // Unboxing
+
+String text = "25";
+int parsedValue = Integer.parseInt(text);
+
+System.out.println(number);
+System.out.println(value);
+System.out.println(parsedValue);
+```
+
+<a id="collections"></a>
+# Basic Collections
+
+## ArrayList
+  -- `ArrayList` size change kar sakne wali ordered list hai
+  -- Array ke fixed size ke compare mein ArrayList dynamically resize hoti hai
+  -- `ArrayList<Integer>` generic syntax primitive wrapper type ke saath use hoti hai
+  -- `add()` value add karta hai
+  -- `get(index)` value read karta hai
+  -- `set(index, value)` value update karta hai
+  -- `remove(index)` value hataata hai
+  -- `size()` list ki item count deta hai
+
+```java
+import java.util.ArrayList;
+
+ArrayList<String> names = new ArrayList<>();
+names.add("Aman");
+names.add("Ravi");
+
+System.out.println(names.get(0)); // Aman
+System.out.println(names.size()); // 2
+
+names.set(1, "Raj");
+names.remove(0);
+
+for (String name : names) {
+    System.out.println(name);
+}
+```
+
+## HashMap
+  -- `HashMap` data ko key aur value pair ke roop mein store karta hai
+  -- Key unique hoti hai
+  -- `put(key, value)` pair add ya update karta hai
+  -- `get(key)` key ki value deta hai
+  -- `remove(key)` key aur uski value hataata hai
+  -- `containsKey(key)` check karta hai key present hai ya nahi
+
+```java
+import java.util.HashMap;
+
+HashMap<String, Integer> ages = new HashMap<>();
+ages.put("Aman", 18);
+ages.put("Ravi", 20);
+
+System.out.println(ages.get("Aman")); // 18
+System.out.println(ages.containsKey("Ravi")); // true
+
+ages.remove("Aman");
+```
+
+<a id="encapsulation"></a>
 # Encapsulation
 
 ## What is encapsulation?
@@ -545,6 +801,7 @@ public void setid(int id) {
   -- `this.id = id` mein left side current object ki `id` variable hai
   -- Right side setter ko mila parameter `id` hai
 
+<a id="inheritance"></a>
 # Inheritance
 
 ## What is inheritance?
@@ -714,6 +971,7 @@ Class3 constructor
   }
   ```
 
+<a id="ambiguity"></a>
 # Ambiguity
 
 ## What is ambiguity?
@@ -738,6 +996,7 @@ Class3 constructor
   -- Direct multiple class inheritance ki jagah interfaces ya composition use karein
   -- Variables ke liye clear aur unique variable names rakhein
 
+<a id="polymorphism"></a>
 # Polymorphism
 
 ## What is polymorphism?
@@ -918,6 +1177,7 @@ final class FinalClass {
   -- Runtime par actual object type method selection decide karta hai
   -- `@Override` overriding ko safe aur readable banata hai
 
+<a id="casting"></a>
 # Upcasting and Downcasting
 
 ## Upcasting
@@ -958,6 +1218,7 @@ if (animal instanceof Dog) {
 }
 ```
 
+<a id="abstraction"></a>
 # Abstraction
 
 ## What is abstraction?
@@ -1056,6 +1317,82 @@ public class Main {
   -- Abstraction large systems ko small aur understandable parts mein todti hai
   -- Runtime polymorphism abstraction ke saath saath use hoti hai
 
+<a id="file-handling"></a>
+# Basic File Handling
+  -- Java mein file ke saath read aur write operations `java.io` package se perform karte hain
+  -- `FileWriter` text file mein data likhne ke liye use hota hai
+  -- `FileReader` ya `BufferedReader` text file se data read karte hain
+  -- File operation checked exception de sakti hai, isliye `try-catch` ya `throws` use hota hai
+
+## File mein text likhna
+
+```java
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (FileWriter writer = new FileWriter("data.txt")) {
+            writer.write("Hello Java");
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+}
+```
+
+## File se text read karna
+
+```java
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class Main {
+    public static void main(String[] args) {
+        try (BufferedReader reader =
+                 new BufferedReader(new FileReader("data.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException exception) {
+            System.out.println(exception.getMessage());
+        }
+    }
+}
+```
+
+<a id="debugging"></a>
+# Basic Debugging
+  -- Debugging code mein problem identify aur fix karne ki process hai
+  -- Compilation error compiler code run hone se pehle batata hai
+  -- Runtime exception program execute hone ke dauran aati hai
+  -- Logic error mein program run hota hai, lekin result galat hota hai
+  -- Error line, exception name aur stack trace debugging ke starting points hain
+
+## Simple debugging methods
+  -- Code ke critical parts mein `System.out.println()` se value print karein
+  -- Variable ki value har major step ke baad check karein
+  -- `try-catch` mein exception ka `getMessage()` ya `printStackTrace()` print karein
+  -- IDE breakpoint set karke program ko line-by-line execute karein
+  -- `if` conditions aur loop boundaries manually verify karein
+
+```java
+int number = 10;
+System.out.println("Before calculation: " + number);
+
+int result = number * 2;
+System.out.println("After calculation: " + result);
+```
+
+## Basic debugging points
+  -- Compilation error ke liye red underline aur compiler message dekhein
+  -- Runtime exception ke liye first error line aur exception class dekhein
+  -- Logic error ke liye input, expected output aur actual output compare karein
+  -- Ek baar mein ek chhoti problem fix karein aur uske baad program dobara run karein
+
+<a id="exception-handling"></a>
 # Exception Handling
 
 ## What is an exception?
